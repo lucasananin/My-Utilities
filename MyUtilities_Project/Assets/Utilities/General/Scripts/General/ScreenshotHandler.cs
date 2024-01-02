@@ -11,39 +11,45 @@ namespace Utilities
     {
         [Title("// General")]
         [SerializeField, Range(1, 9)] int _screenshotScale = 1;
-        //[SerializeField, Range(0f, 1f)] float _timeScale = 1f;
+        [SerializeField] bool _takeTransparentScreenshot = false;
+        [SerializeField] bool _changeTimeScale = false;
+        [SerializeField, Range(0f, 1f)] float _timeScale = 1f;
 
-        [Title("// Transparent Screenshot")]
-        [SerializeField] int _width = 1024;
-        [SerializeField] int _height = 1024;
+        private void Start()
+        {
+            TryCreateDirectory();
 
-        //private void Update()
-        //{
-        //    Time.timeScale = _timeScale;
+            if (_takeTransparentScreenshot)
+            {
+                TakeTransparentScreenshot();
+            }
+        }
 
-        //    if (Input.GetKeyDown(KeyCode.Space))
-        //    {
-        //        TakeScreenshot();
-        //    }
-        //}
+        private void Update()
+        {
+            if (_changeTimeScale)
+            {
+                Time.timeScale = _timeScale;
+            }
 
-        [Button("Take Screenshot ()")]
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TakeScreenshot();
+            }
+        }
+
+        [Button]
         public void TakeScreenshot()
         {
-            string _filename = string.Format("Assets/Screenshots/capture_{0}.png", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff"));
-            VerifyDirectory();
-
+            string _filename = GetFileName();
             ScreenCapture.CaptureScreenshot(_filename, _screenshotScale);
             Debug.Log($"// {_filename} Taken!");
         }
 
-        [Button("Take Transparent ScreenShot ()")]
         public void TakeTransparentScreenshot()
         {
-            string _filename = string.Format("Assets/Screenshots/capture_{0}.png", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff"));
-            VerifyDirectory();
-
-            TakeTransparentScreenshot(Camera.main, _width, _height, _filename);
+            string _filename = GetFileName();
+            TakeTransparentScreenshot(Camera.main, Screen.width * _screenshotScale, Screen.height * _screenshotScale, _filename);
             Debug.Log($"// {_filename} Taken!");
         }
 
@@ -80,12 +86,17 @@ namespace Utilities
             Destroy(tex_transparent);
         }
 
-        private void VerifyDirectory()
+        private void TryCreateDirectory()
         {
             if (!Directory.Exists("Assets/Screenshots"))
             {
                 Directory.CreateDirectory("Assets/Screenshots");
             }
+        }
+
+        private string GetFileName()
+        {
+            return string.Format("Assets/Screenshots/capture_{0}.png", DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss-fff"));
         }
     }
 }

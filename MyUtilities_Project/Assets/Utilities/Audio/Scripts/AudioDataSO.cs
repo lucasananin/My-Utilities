@@ -10,6 +10,7 @@ namespace Utilities.Audio
     public class AudioDataSO : ScriptableObject
     {
         [Title("// General")]
+        [SerializeField] AudioChannelSO _audioChannelSO = null;
         [SerializeField] AudioClip _clip = null;
         [SerializeField] AudioMixerGroup _group = null;
         [Space]
@@ -29,10 +30,10 @@ namespace Utilities.Audio
         [SerializeField, Range(0, 360)] float _minDistance = 1;
         [SerializeField, Range(0, 360)] float _maxDistance = 500;
 
-        public float GetClipLength()
-        {
-            return _clip.length;
-        }
+        [Title("// Delay")]
+        [SerializeField, Range(0f, 10f)] float _delay = 0f;
+
+        const float LENGTH_OFFSET = 0.2f;
 
         public void ApplySettings(ref AudioSource _source)
         {
@@ -53,6 +54,36 @@ namespace Utilities.Audio
             _source.rolloffMode = _volumeRolloff;
             _source.minDistance = _minDistance;
             _source.maxDistance = _maxDistance;
+        }
+
+        public float GetClipLength()
+        {
+            return _clip.length + _delay + LENGTH_OFFSET;
+        }
+
+        public bool HasDelay()
+        {
+            return _delay > 0;
+        }
+
+        public float GetDelay()
+        {
+            return _delay;
+        }
+
+        public AudioEmitter PlayAsMusic()
+        {
+            return _audioChannelSO.PlayMusicEvent(this);
+        }
+
+        public AudioEmitter PlayAsSfx()
+        {
+            return _audioChannelSO.PlaySfxEvent(this, default);
+        }
+
+        public AudioEmitter PlayAsSfx(Vector3 _positionValue)
+        {
+            return _audioChannelSO.PlaySfxEvent(this, _positionValue);
         }
     }
 }

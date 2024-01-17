@@ -14,22 +14,22 @@ namespace Utilities.Audio
         public event Delegates.Function<bool> stopMusic = null;
         public event Delegates.Function<bool, AudioEmitter> stopSfx = null;
 
-        public AudioEmitter InvokePlayMusic(AudioDataSO _audioValue)
+        public AudioEmitter PlayMusicEvent(AudioDataSO _audioValue)
         {
             return playMusic?.Invoke(_audioValue);
         }
 
-        public AudioEmitter InvokePlaySfx(AudioDataSO _audioValue, Vector3 _positionValue)
+        public AudioEmitter PlaySfxEvent(AudioDataSO _audioValue, Vector3 _positionValue)
         {
             return playSfx?.Invoke(_audioValue, _positionValue);
         }
 
-        public bool InvokeStopMusic()
+        public bool InvokeStopMusicEvent()
         {
             return (bool)(stopMusic?.Invoke());
         }
 
-        public bool InvokeStopSfx(AudioEmitter _audioEmitter)
+        public bool InvokeStopSfxEvent(AudioEmitter _audioEmitter)
         {
             return (bool)(stopSfx?.Invoke(_audioEmitter));
         }

@@ -23,9 +23,17 @@ namespace Utilities.Audio
         public void Play(AudioDataSO _audio)
         {
             _audio.ApplySettings(ref _audioSource);
-            _audioSource.Play();
 
-            _timeToReturn = _audio.GetClipLength() + 0.2f;
+            if (_audio.HasDelay())
+            {
+                _audioSource.PlayDelayed(_audio.GetDelay());
+            }
+            else
+            {
+                _audioSource.Play();
+            }
+
+            _timeToReturn = _audio.GetClipLength();
             StartCoroutine(ReturnRoutine());
         }
 
@@ -35,7 +43,9 @@ namespace Utilities.Audio
             _audioSource.Stop();
 
             if (_returnToPool)
+            {
                 _myPool.ReturnToPool(this);
+            }
         }
 
         public bool IsPlaying()

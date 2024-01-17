@@ -82,5 +82,31 @@ namespace Utilities
 
             return _objects[Mathf.RoundToInt(_finalIndex)];
         }
+
+        public static void ShuffleList<T>(List<T> _collection)
+        {
+            int _count = _collection.Count;
+
+            for (int i = 0; i < _count; i++)
+            {
+                T _tempItem = _collection[i];
+                int _randomIndex = Random.Range(0, _count);
+                _collection[i] = _collection[_randomIndex];
+                _collection[_randomIndex] = _tempItem;
+            }
+        }
+
+        public static void ShuffleArray<T>(T[] _collection)
+        {
+            int _count = _collection.Length;
+
+            for (int i = 0; i < _count; i++)
+            {
+                T _tempItem = _collection[i];
+                int _randomIndex = Random.Range(0, _count);
+                _collection[i] = _collection[_randomIndex];
+                _collection[_randomIndex] = _tempItem;
+            }
+        }
     }
 }

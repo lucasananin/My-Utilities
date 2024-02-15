@@ -436,6 +436,8 @@ MonoBehaviour:
   - 25
   - 15
   - 10
+  _target: {fileID: 272206695}
+  _minDistance: 5
 --- !u!4 &284443762
 Transform:
   m_ObjectHideFlags: 0

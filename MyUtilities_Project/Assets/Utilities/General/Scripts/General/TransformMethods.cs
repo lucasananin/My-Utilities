@@ -26,5 +26,11 @@ namespace Utilities
 
             return _nearestTarget;
         }
+
+        public static bool IsInsideDistance(Transform _origin, Transform _target, float _distanceValue)
+        {
+            float _sqrDistance = (_origin.position - _target.position).sqrMagnitude;
+            return _sqrDistance <= _distanceValue * _distanceValue;
+        }
     }
 }

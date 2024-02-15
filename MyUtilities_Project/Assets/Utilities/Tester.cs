@@ -10,6 +10,15 @@ public class Tester : MonoBehaviour
     [SerializeField] List<string> _names = null;
     [SerializeField] List<float> _probs = null;
 
+    [Title("// Is Inside Distance")]
+    [SerializeField] Transform _target = null;
+    [SerializeField] float _minDistance = 5f;
+
+    private void Update()
+    {
+        TransformMethods.IsInsideDistance(transform, _target, _minDistance);
+    }
+
     [Button]
     private void GetRandomName()
     {
